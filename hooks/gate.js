@@ -68,7 +68,8 @@ function readStdin(timeoutMs = 3000) {
 async function main() {
   let payload;
   try {
-    payload = JSON.parse(await readStdin());
+    // Some Windows shells (PowerShell 5.1) prepend a UTF-8 BOM to piped input.
+    payload = JSON.parse((await readStdin()).replace(/^﻿/, ""));
   } catch {
     return; // fail open
   }

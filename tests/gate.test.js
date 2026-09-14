@@ -80,6 +80,12 @@ test("ignores tools other than Agent/Task", () => {
   assert.equal(run({ tool_name: "Bash", tool_input: { command: "ls" } }).code, 0);
 });
 
+test("tolerates a UTF-8 BOM and CRLF from Windows shells", () => {
+  const r = run("﻿" + JSON.stringify(call("router-sonnet-low", "haiku")) + "\r\n");
+  assert.equal(r.code, 2);
+  assert.match(r.stderr, /Haiku/);
+});
+
 test("fails open on malformed input", () => {
   assert.equal(run("this is not json").code, 0);
   assert.equal(run("").code, 0);
