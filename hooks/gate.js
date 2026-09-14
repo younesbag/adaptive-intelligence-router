@@ -17,8 +17,6 @@
  */
 "use strict";
 
-const fs = require("fs");
-
 const POOL = /^router-(sonnet|opus|fable)-(low|medium|high|xhigh|max)$/;
 const EXPLORE = "Explore";
 const CATCH_ALL = new Set(["general-purpose", "claude"]);
@@ -42,10 +40,35 @@ function tierOf(model) {
   return TIERS.find((t) => matchesTier(model, t)) || null;
 }
 
-function main() {
+/**
+ * Read all of stdin. Async on purpose: a synchronous fs.readFileSync(0) can
+ * throw EAGAIN/EOF on Windows pipes and would silently fail open. A short
+ * timer guarantees the hook can never hang if the pipe is never closed.
+ */
+function readStdin(timeoutMs = 3000) {
+  return new Promise((resolve) => {
+    let data = "";
+    let done = false;
+    const finish = () => {
+      if (done) return;
+      done = true;
+      clearTimeout(timer);
+      resolve(data);
+    };
+    const timer = setTimeout(finish, timeoutMs);
+    if (process.stdin.isTTY) return finish();
+    process.stdin.setEncoding("utf8");
+    process.stdin.on("data", (chunk) => (data += chunk));
+    process.stdin.on("end", finish);
+    process.stdin.on("error", finish);
+    process.stdin.resume();
+  });
+}
+
+async function main() {
   let payload;
   try {
-    payload = JSON.parse(fs.readFileSync(0, "utf8"));
+    payload = JSON.parse(await readStdin());
   } catch {
     return; // fail open
   }

@@ -65,16 +65,12 @@ function preflight() {
 }
 
 function main() {
-  try {
-    fs.readFileSync(0, "utf8"); // drain stdin; payload is not needed
-  } catch {
-    /* no stdin */
-  }
-
+  // The stdin payload is not needed. Print, then exit once stdout is flushed —
+  // never wait on stdin, so a pipe that is not closed can never stall the hook.
   const lines = [REMINDER];
   const warnings = preflight();
   if (warnings.length) lines.push(`[adaptive-router] PREFLIGHT WARNINGS: ${warnings.join(" | ")}`);
-  process.stdout.write(lines.join("\n") + "\n");
+  process.stdout.write(lines.join("\n") + "\n", () => process.exit(0));
 }
 
 main();
