@@ -73,7 +73,7 @@ Removes the hook entries, the hooks directory, the marked policy section, and on
 
 ## Origin
 
-This is the routing setup that runs the day-to-day development of [Moshid](https://moshid.com?utm_source=github&utm_medium=readme&utm_campaign=adaptive-router), an Arabic AI-execution platform — published as-is, as a personal configuration. It assumes a plan with access to all three tiers. **Want a router built for *your* plan and *your* usage pattern — interviewed, scanned, and calibrated by your own agent, in Claude Code or Codex?** That is the subject of Moshid's [weekly guide on the subject](https://moshid.com/weekly/adaptive-router?utm_source=github&utm_medium=readme&utm_campaign=adaptive-router) (Arabic).
+This is the routing setup that runs the day-to-day development of [Moshid](https://moshid.com?utm_source=github&utm_medium=readme&utm_campaign=adaptive-router), an Arabic AI-execution platform — published as-is, as a personal configuration. It assumes a plan with access to all three tiers. **Want a router built for *your* plan and *your* usage pattern — interviewed, scanned, and calibrated by your own agent, in Claude Code or Codex?** That is the subject of Moshid's [weekly guide on the subject](https://moshid.com/guides/adaptive-router?utm_source=github&utm_medium=readme&utm_campaign=adaptive-router) (Arabic).
 
 No support is offered for this repository; issues and pull requests are welcome but may not be answered.
 
